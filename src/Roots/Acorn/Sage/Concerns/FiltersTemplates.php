@@ -14,7 +14,7 @@ trait FiltersTemplates
      */
     public function filterTemplateHierarchy($files)
     {
-        return $this->sageFinder->locate($files);
+        return $files + [$this->sageFinder->locate($files)];
     }
 
     /**
@@ -27,6 +27,11 @@ trait FiltersTemplates
      */
     public function filterTemplateInclude($file)
     {
+
+        if(@file_exists($file)) {
+            return $file;
+        }
+
         $view = $this->fileFinder
             ->getPossibleViewNameFromPath($file = realpath($file));
 
